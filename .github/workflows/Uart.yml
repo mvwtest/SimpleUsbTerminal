@@ -1,0 +1,31 @@
+name: Uartmvw
+
+on:
+  workflow_dispatch:
+  repository_dispatch:
+
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        submodules: true
+    - name: set up JDK 11
+      uses: actions/setup-java@v1
+      with:
+        java-version: 11
+    - name: Build with Gradle
+      #run: ./gradlew build
+      run:  ./gradlew assembleDebug --stacktrace
+    - name: ls
+      run: ls
+      
+    - name: Upload APK
+      uses: actions/upload-artifact@v2.3.1
+      with:
+        name: SensorServer-Apk
+        path: app/build/outputs/apk/debug/
